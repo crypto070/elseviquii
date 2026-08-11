@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Elseviqui</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    body {
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    /* =========================================
+       BACKGROUND IMAGE
+       ========================================= */
+
+    .background-image {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+
+      background-image:
+        url("https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/unnamed.jpg");
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      opacity: 0;
+      transition: opacity 2.5s ease;
+
+      pointer-events: none;
+    }
+
+    .background-image.show {
+      opacity: 1;
+    }
+
+
+    /* =========================================
+       CAROUSEL
+       ========================================= */
+
+    .carousel {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+
+      overflow: hidden;
+
+      opacity: 0;
+
+      transition: opacity 2.5s ease;
+    }
+
+    .carousel.show {
+      opacity: 1;
+    }
+
+
+    /* =========================================
+       VIDEO CARDS
+       ========================================= */
+
+    .video-card {
+      position: absolute;
+      top: 0;
+
+      width: 33.333333vw;
+      height: 100vh;
+
+      overflow: hidden;
+
+      background: transparent;
+
+      pointer-events: none;
+
+      transition:
+        left 0.85s cubic-bezier(.22,.8,.22,1),
+        opacity 0.85s ease,
+        filter 0.85s ease,
+        transform 0.85s cubic-bezier(.22,.8,.22,1);
+
+      will-change:
+        left,
+        opacity,
+        filter,
+        transform;
+    }
+
+
+    /* LEFT VIDEO */
+
+    .video-card.left {
+      left: 0;
+
+      opacity: 0.55;
+
+      filter:
+        brightness(0.45);
+
+      transform:
+        scale(0.94);
+
+      z-index: 1;
+    }
+
+
+    /* CENTER VIDEO */
+
+    .video-card.center {
+      left: 33.333333vw;
+
+      opacity: 1;
+
+      filter:
+        brightness(1);
+
+      transform:
+        scale(1);
+
+      z-index: 3;
+    }
+
+
+    /* RIGHT VIDEO */
+
+    .video-card.right {
+      left: 66.666666vw;
+
+      opacity: 0.55;
+
+      filter:
+        brightness(0.45);
+
+      transform:
+        scale(0.94);
+
+      z-index: 1;
+    }
+
+
+    /* =========================================
+       ACTUAL VIDEO
+       ========================================= */
+
+    .video-card video {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: contain;
+      object-position: center;
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================
+       VIDEO DIVIDERS
+       ========================================= */
+
+    .video-card.left::after,
+    .video-card.center::after {
+      content: "";
+
+      position: absolute;
+
+      top: 8%;
+      bottom: 8%;
+      right: 0;
+
+      width: 1px;
+
+      background:
+        rgba(255, 255, 255, 0.10);
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================
+       DARK OVERLAY
+       ========================================= */
+
+    .video-overlay {
+      position: fixed;
+      inset: 0;
+
+      z-index: 2;
+
+      background:
+        rgba(0, 0, 0, 0.16);
+
+      opacity: 0;
+
+      transition:
+        opacity 2.5s ease;
+
+      pointer-events: none;
+    }
+
+    .video-overlay.show {
+      opacity: 1;
+    }
+
+
+    /* =========================================
+       FADED ARROW ZONES
+       ========================================= */
+
+    .carousel-arrow {
+      position: fixed;
+
+      top: 0;
+      bottom: 0;
+
+      width: 14vw;
+
+      z-index: 20;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border: none;
+      outline: none;
+
+      color:
+        rgba(255, 255, 255, 0.32);
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      font-size:
+        clamp(4rem, 10vw, 8rem);
+
+      font-weight: 200;
+
+      cursor: pointer;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition:
+        opacity 1s ease,
+        color 0.25s ease;
+    }
+
+
+    body.started .carousel-arrow {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+
+    /* LEFT ARROW FADE */
+
+    .carousel-arrow-left {
+      left: 0;
+
+      background:
+        linear-gradient(
+          to right,
+          rgba(0, 0, 0, 0.26) 0%,
+          rgba(0, 0, 0, 0.18) 25%,
+          rgba(0, 0, 0, 0.10) 50%,
+          rgba(0, 0, 0, 0.04) 75%,
+          rgba(0, 0, 0, 0) 100%
+        );
+    }
+
+
+    /* RIGHT ARROW FADE */
+
+    .carousel-arrow-right {
+      right: 0;
+
+      background:
+        linear-gradient(
+          to left,
+          rgba(0, 0, 0, 0.26) 0%,
+          rgba(0, 0, 0, 0.18) 25%,
+          rgba(0, 0, 0, 0.10) 50%,
+          rgba(0, 0, 0, 0.04) 75%,
+          rgba(0, 0, 0, 0) 100%
+        );
+    }
+
+
+    /* HOVER */
+
+    .carousel-arrow-left:hover {
+      background:
+        linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0.09) 0%,
+          rgba(255, 255, 255, 0.055) 30%,
+          rgba(255, 255, 255, 0.025) 60%,
+          rgba(255, 255, 255, 0) 100%
+        );
+
+      color:
+        rgba(255, 255, 255, 0.70);
+    }
+
+
+    .carousel-arrow-right:hover {
+      background:
+        linear-gradient(
+          to left,
+          rgba(255, 255, 255, 0.09) 0%,
+          rgba(255, 255, 255, 0.055) 30%,
+          rgba(255, 255, 255, 0.025) 60%,
+          rgba(255, 255, 255, 0) 100%
+        );
+
+      color:
+        rgba(255, 255, 255, 0.70);
+    }
+
+
+    .carousel-arrow:active {
+      color:
+        rgba(255, 255, 255, 1);
+    }
+
+
+    /* =========================================
+       MAIN CONTENT
+       ========================================= */
+
+    .container {
+      position: fixed;
+      inset: 0;
+
+      z-index: 5;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      text-align: center;
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================
+       TITLE
+       ========================================= */
+
+    .title {
+      font-size:
+        clamp(4rem, 12vw, 10rem);
+
+      font-weight: 300;
+
+      letter-spacing:
+        0.08em;
+
+      opacity: 0;
+
+      transform:
+        translateY(40px);
+
+      filter:
+        blur(10px);
+    }
+
+
+    .title.show {
+      animation:
+        titleFade
+        2.5s
+        ease
+        forwards;
+    }
+
+
+    /* =========================================
+       INSTAGRAM
+       ========================================= */
+
+    .instagram {
+      margin-top: 25px;
+
+      font-size:
+        clamp(1rem, 2vw, 1.4rem);
+
+      letter-spacing:
+        0.15em;
+
+      text-transform:
+        lowercase;
+
+      opacity: 0;
+
+      transform:
+        translateY(20px);
+
+      pointer-events: auto;
+    }
+
+
+    .instagram.show {
+      animation:
+        textFade
+        2s
+        ease
+        forwards;
+    }
+
+
+    .instagram a {
+      color: white;
+
+      text-decoration: none;
+
+      opacity: 0.7;
+
+      transition:
+        opacity 0.3s ease,
+        letter-spacing 0.3s ease;
+    }
+
+
+    .instagram a:hover {
+      opacity: 1;
+
+      letter-spacing:
+        0.2em;
+    }
+
+
+    /* =========================================
+       MUSIC SECTION
+       ========================================= */
+
+    .music-section {
+      margin-top: 55px;
+
+      opacity: 0;
+
+      transform:
+        translateY(20px);
+
+      pointer-events: auto;
+    }
+
+
+    .music-section.show {
+      animation:
+        textFade
+        2s
+        ease
+        forwards;
+    }
+
+
+    .select-track {
+      margin-bottom: 16px;
+
+      font-size: 0.58rem;
+
+      letter-spacing:
+        0.35em;
+
+      text-transform: uppercase;
+
+      color:
+        rgba(255, 255, 255, 0.55);
+    }
+
+
+    /* =========================================
+       MUSIC BUTTONS
+       ========================================= */
+
+    .music-options {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      gap: 18px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .song-option {
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.28);
+
+      background:
+        rgba(0, 0, 0, 0.20);
+
+      color:
+        rgba(255, 255, 255, 0.72);
+
+      padding:
+        13px 20px;
+
+      border-radius:
+        999px;
+
+      font-family: inherit;
+
+      font-size:
+        0.72rem;
+
+      letter-spacing:
+        0.10em;
+
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      backdrop-filter:
+        blur(10px);
+
+      -webkit-backdrop-filter:
+        blur(10px);
+
+      transform:
+        translateY(0)
+        scale(1);
+
+      transition:
+        transform 0.30s cubic-bezier(.2,.8,.2,1),
+        background 0.30s ease,
+        border-color 0.30s ease,
+        color 0.30s ease,
+        box-shadow 0.30s ease;
+    }
+
+
+    .song-option:hover {
+      transform:
+        translateY(-8px)
+        scale(1.09);
+
+      background:
+        rgba(255, 255, 255, 0.12);
+
+      border-color:
+        rgba(255, 255, 255, 0.65);
+
+      color: white;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.30);
+    }
+
+
+    .song-option:active {
+      transform:
+        translateY(-3px)
+        scale(1.03);
+    }
+
+
+    .song-option.active {
+      background:
+        rgba(255, 255, 255, 0.16);
+
+      border-color:
+        rgba(255, 255, 255, 0.75);
+
+      color: white;
+    }
+
+
+    /* =========================================
+       NOW PLAYING
+       ========================================= */
+
+    .now-playing {
+      margin-top: 25px;
+
+      font-size: 0.62rem;
+
+      letter-spacing:
+        0.22em;
+
+      text-transform: uppercase;
+
+      color:
+        rgba(255, 255, 255, 0.58);
+    }
+
+
+    .now-playing-song {
+      color:
+        rgba(255, 255, 255, 0.9);
+    }
+
+
+    /* =========================================
+       VISUALIZER
+       ========================================= */
+
+    .visualizer {
+      height: 25px;
+
+      margin-top: 13px;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      gap: 4px;
+    }
+
+
+    .bar {
+      width: 3px;
+      height: 5px;
+
+      border-radius: 5px;
+
+      background:
+        rgba(255, 255, 255, 0.7);
+
+      animation:
+        audioBar
+        0.8s
+        ease-in-out
+        infinite
+        alternate;
+    }
+
+
+    .bar:nth-child(1) {
+      animation-duration: 0.55s;
+    }
+
+    .bar:nth-child(2) {
+      animation-duration: 0.8s;
+    }
+
+    .bar:nth-child(3) {
+      animation-duration: 0.65s;
+    }
+
+    .bar:nth-child(4) {
+      animation-duration: 0.95s;
+    }
+
+    .bar:nth-child(5) {
+      animation-duration: 0.7s;
+    }
+
+    .bar:nth-child(6) {
+      animation-duration: 0.5s;
+    }
+
+    .bar:nth-child(7) {
+      animation-duration: 0.85s;
+    }
+
+    .bar:nth-child(8) {
+      animation-duration: 0.62s;
+    }
+
+    .bar:nth-child(9) {
+      animation-duration: 0.75s;
+    }
+
+    .bar:nth-child(10) {
+      animation-duration: 0.48s;
+    }
+
+
+    @keyframes audioBar {
+
+      from {
+        height: 4px;
+        opacity: 0.45;
+      }
+
+      to {
+        height: 22px;
+        opacity: 1;
+      }
+
+    }
+
+
+    /* =========================================
+       TEXT ANIMATIONS
+       ========================================= */
+
+    @keyframes titleFade {
+
+      0% {
+        opacity: 0;
+
+        transform:
+          translateY(40px);
+
+        filter:
+          blur(10px);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform:
+          translateY(0);
+
+        filter:
+          blur(0);
+      }
+
+    }
+
+
+    @keyframes textFade {
+
+      0% {
+        opacity: 0;
+
+        transform:
+          translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform:
+          translateY(0);
+      }
+
+    }
+
+
+    /* =========================================
+       ENTER SCREEN
+       ========================================= */
+
+    #startScreen {
+      position: fixed;
+      inset: 0;
+
+      z-index: 100;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      background: black;
+
+      cursor: pointer;
+
+      transition:
+        opacity 1.5s ease;
+    }
+
+
+    #startScreen p {
+      color: white;
+
+      font-size: 0.8rem;
+
+      letter-spacing:
+        0.3em;
+
+      text-transform: uppercase;
+
+      opacity: 0.6;
+
+      animation:
+        pulse
+        2s
+        infinite;
+    }
+
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+    }
+
+
+    /* =========================================
+       PORTRAIT MODE
+       ========================================= */
+
+    @media (orientation: portrait) {
+
+
+      /* CENTER VIDEO FILLS VIDEO AREA */
+
+      .video-card {
+        width: 100vw;
+        height: 100vh;
+
+        top: 0;
+      }
+
+
+      .video-card.center {
+        left: 0;
+
+        opacity: 1;
+
+        transform:
+          scale(1);
+
+        filter:
+          brightness(1);
+
+        z-index: 3;
+      }
+
+
+      /* HIDE SIDE VIDEOS */
+
+      .video-card.left,
+      .video-card.right {
+        left: 0;
+
+        opacity: 0;
+
+        transform:
+          scale(1);
+
+        pointer-events: none;
+      }
+
+
+      /* REMOVE DIVIDERS */
+
+      .video-card.left::after,
+      .video-card.center::after {
+        display: none;
+      }
+
+
+      /* WIDER FADED ARROW AREAS */
+
+      .carousel-arrow {
+        width: 24vw;
+
+        font-size:
+          clamp(4rem, 18vw, 8rem);
+      }
+
+
+      /* TITLE */
+
+      .title {
+        font-size:
+          clamp(3.3rem, 17vw, 6rem);
+      }
+
+
+      /* INSTAGRAM */
+
+      .instagram {
+        font-size:
+          clamp(0.8rem, 3.5vw, 1.1rem);
+      }
+
+
+      /* MUSIC */
+
+      .music-section {
+        width: 100%;
+
+        margin-top: 50px;
+
+        padding:
+          0 16px;
+      }
+
+
+      /* SONGS STACK VERTICALLY */
+
+      .music-options {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 12px;
+      }
+
+
+      .song-option {
+        width:
+          min(78vw, 320px);
+
+        padding:
+          12px 16px;
+
+        font-size:
+          0.60rem;
+      }
+
+
+      .now-playing {
+        font-size:
+          0.48rem;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- =========================================
+       BACKGROUND IMAGE
+       ========================================= -->
+
+  <div
+    class="background-image"
+    id="backgroundImage"
+  ></div>
+
+
+  <!-- =========================================
+       VIDEO CAROUSEL
+       ========================================= -->
+
+  <div
+    class="carousel"
+    id="carousel"
+  >
+
+
+    <!-- LEFT VIDEO -->
+
+    <div class="video-card left">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/My%20project%20%2842%29.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <!-- CENTER VIDEO -->
+
+    <div class="video-card center">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/elseviqui.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <!-- RIGHT VIDEO -->
+
+    <div class="video-card right">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/My%20project%20%2843%29.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- =========================================
+       DARK OVERLAY
+       ========================================= -->
+
+  <div
+    class="video-overlay"
+    id="videoOverlay"
+  ></div>
+
+
+  <!-- =========================================
+       MAIN CONTENT
+       ========================================= -->
+
+  <main class="container">
+
+
+    <h1
+      class="title"
+      id="title"
+    >
+      Elseviqui
+    </h1>
+
+
+    <p
+      class="instagram"
+      id="instagram"
+    >
+
+      follow
+
+      <a
+        href="https://www.instagram.com/elseviqui?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        elseviqui
+      </a>
+
+      on instagram
+
+    </p>
+
+
+    <!-- =========================================
+         MUSIC
+         ========================================= -->
+
+    <div
+      class="music-section"
+      id="musicSection"
+    >
+
+
+      <p class="select-track">
+        Select Track
+      </p>
+
+
+      <div class="music-options">
+
+
+        <button
+          class="song-option"
+          type="button"
+          data-song="0"
+        >
+          Annihilator
+        </button>
+
+
+        <button
+          class="song-option active"
+          type="button"
+          data-song="1"
+        >
+          New England Palm Trees
+        </button>
+
+
+        <button
+          class="song-option"
+          type="button"
+          data-song="2"
+        >
+          Octane
+        </button>
+
+
+      </div>
+
+
+      <p class="now-playing">
+
+        NOW PLAYING&nbsp; • &nbsp;
+
+        <span
+          class="now-playing-song"
+          id="nowPlayingSong"
+        >
+          NEW ENGLAND PALM TREES
+        </span>
+
+      </p>
+
+
+      <div class="visualizer">
+
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+
+      </div>
+
+
+    </div>
+
+
+  </main>
+
+
+  <!-- =========================================
+       ARROWS
+       ========================================= -->
+
+  <button
+    class="carousel-arrow carousel-arrow-left"
+    id="carouselLeft"
+    type="button"
+    aria-label="Previous video"
+  >
+    ‹
+  </button>
+
+
+  <button
+    class="carousel-arrow carousel-arrow-right"
+    id="carouselRight"
+    type="button"
+    aria-label="Next video"
+  >
+    ›
+  </button>
+
+
+  <!-- =========================================
+       ENTER SCREEN
+       ========================================= -->
+
+  <div id="startScreen">
+
+    <p>
+      click to enter
+    </p>
+
+  </div>
+
+
+  <!-- =========================================
+       MUSIC PLAYER
+       ========================================= -->
+
+  <audio
+    id="musicPlayer"
+    loop
+    preload="auto"
+  ></audio>
+
+
+  <script>
+
+
+    /* =========================================
+       CLOUDFLARE
+       ========================================= */
+
+    const cloudflareBase =
+      "https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/";
+
+
+    /* =========================================
+       SONGS
+       ========================================= */
+
+    const songs = [
+
+      {
+        name: "Annihilator",
+        file: "Lorna Shore - Annihilator.mp3"
+      },
+
+      {
+        name: "New England Palm Trees",
+        file: "New England Palm Trees.mp3"
+      },
+
+      {
+        name: "Octane",
+        file: "Until I Wake - Octane (Official Music Video).mp3"
+      }
+
+    ];
+
+
+    /* =========================================
+       ELEMENTS
+       ========================================= */
+
+    const startScreen =
+      document.getElementById("startScreen");
+
+    const backgroundImage =
+      document.getElementById("backgroundImage");
+
+    const carousel =
+      document.getElementById("carousel");
+
+    const videoOverlay =
+      document.getElementById("videoOverlay");
+
+    const title =
+      document.getElementById("title");
+
+    const instagram =
+      document.getElementById("instagram");
+
+    const musicSection =
+      document.getElementById("musicSection");
+
+    const musicPlayer =
+      document.getElementById("musicPlayer");
+
+    const songOptions =
+      document.querySelectorAll(".song-option");
+
+    const nowPlayingSong =
+      document.getElementById("nowPlayingSong");
+
+    const carouselLeft =
+      document.getElementById("carouselLeft");
+
+    const carouselRight =
+      document.getElementById("carouselRight");
+
+
+    /* =========================================
+       MUSIC
+       ========================================= */
+
+    musicPlayer.volume = 0.45;
+
+
+    function getSongURL(fileName) {
+
+      return (
+        cloudflareBase +
+        encodeURIComponent(fileName)
+      );
+
+    }
+
+
+    function loadSong(
+      songIndex,
+      autoplay = true
+    ) {
+
+      const selectedSong =
+        songs[songIndex];
+
+
+      musicPlayer.src =
+        getSongURL(
+          selectedSong.file
+        );
+
+
+      musicPlayer.load();
+
+
+      nowPlayingSong.textContent =
+        selectedSong.name;
+
+
+      songOptions.forEach(
+        option => {
+
+          option.classList.remove(
+            "active"
+          );
+
+        }
+      );
+
+
+      const activeOption =
+        document.querySelector(
+          `[data-song="${songIndex}"]`
+        );
+
+
+      if (activeOption) {
+
+        activeOption.classList.add(
+          "active"
+        );
+
+      }
+
+
+      if (autoplay) {
+
+        musicPlayer
+          .play()
+          .catch(
+            error => {
+
+              console.log(
+                "Music failed:",
+                error
+              );
+
+            }
+          );
+
+      }
+
+    }
+
+
+    /* =========================================
+       DEFAULT SONG
+       ========================================= */
+
+    loadSong(
+      1,
+      false
+    );
+
+
+    /* =========================================
+       SONG BUTTONS
+       ========================================= */
+
+    songOptions.forEach(
+      option => {
+
+        option.addEventListener(
+          "click",
+          () => {
+
+            const songIndex =
+              Number(
+                option.dataset.song
+              );
+
+
+            loadSong(
+              songIndex,
+              true
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =========================================
+       VIDEO CAROUSEL
+       ========================================= */
+
+    let cards =
+      Array.from(
+        document.querySelectorAll(
+          ".video-card"
+        )
+      );
+
+
+    let moving = false;
+
+    let websiteStarted = false;
+
+
+    /* =========================================
+       UPDATE VIDEO POSITIONS
+       ========================================= */
+
+    function updatePositions() {
+
+
+      cards.forEach(
+        card => {
+
+          card.classList.remove(
+            "left",
+            "center",
+            "right"
+          );
+
+        }
+      );
+
+
+      cards[0].classList.add(
+        "left"
+      );
+
+
+      cards[1].classList.add(
+        "center"
+      );
+
+
+      cards[2].classList.add(
+        "right"
+      );
+
+
+      if (websiteStarted) {
+
+        playCenterVideo();
+
+      }
+
+    }
+
+
+    /* =========================================
+       ONLY CENTER VIDEO PLAYS
+       ========================================= */
+
+    function playCenterVideo() {
+
+
+      cards.forEach(
+        card => {
+
+
+          const video =
+            card.querySelector(
+              "video"
+            );
+
+
+          if (
+            card.classList.contains(
+              "center"
+            )
+          ) {
+
+
+            video.currentTime = 0;
+
+
+            video
+              .play()
+              .catch(
+                error => {
+
+                  console.log(
+                    "Center video failed:",
+                    error
+                  );
+
+                }
+              );
+
+
+          }
+
+          else {
+
+
+            video.pause();
+
+            video.currentTime = 0;
+
+
+          }
+
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       NEXT VIDEO
+       ========================================= */
+
+    function moveLeft() {
+
+
+      if (
+        moving ||
+        !websiteStarted
+      ) {
+
+        return;
+
+      }
+
+
+      moving = true;
+
+
+      cards.push(
+        cards.shift()
+      );
+
+
+      updatePositions();
+
+
+      setTimeout(
+        () => {
+
+          moving = false;
+
+        },
+
+        900
+      );
+
+    }
+
+
+    /* =========================================
+       PREVIOUS VIDEO
+       ========================================= */
+
+    function moveRight() {
+
+
+      if (
+        moving ||
+        !websiteStarted
+      ) {
+
+        return;
+
+      }
+
+
+      moving = true;
+
+
+      cards.unshift(
+        cards.pop()
+      );
+
+
+      updatePositions();
+
+
+      setTimeout(
+        () => {
+
+          moving = false;
+
+        },
+
+        900
+      );
+
+    }
+
+
+    /* =========================================
+       ARROW CONTROLS
+       ========================================= */
+
+    carouselLeft.addEventListener(
+      "click",
+      event => {
+
+        event.stopPropagation();
+
+        moveRight();
+
+      }
+    );
+
+
+    carouselRight.addEventListener(
+      "click",
+      event => {
+
+        event.stopPropagation();
+
+        moveLeft();
+
+      }
+    );
+
+
+    /* =========================================
+       ENTER WEBSITE
+       ========================================= */
+
+    startScreen.addEventListener(
+      "click",
+      () => {
+
+
+        websiteStarted = true;
+
+
+        document.body.classList.add(
+          "started"
+        );
+
+
+        /* START CENTER VIDEO */
+
+        playCenterVideo();
+
+
+        /* START MUSIC */
+
+        musicPlayer.currentTime = 0;
+
+
+        musicPlayer
+          .play()
+          .catch(
+            error => {
+
+              console.log(
+                "Music failed:",
+                error
+              );
+
+            }
+          );
+
+
+        /* SHOW BACKGROUND */
+
+        backgroundImage
+          .classList
+          .add("show");
+
+
+        carousel
+          .classList
+          .add("show");
+
+
+        videoOverlay
+          .classList
+          .add("show");
+
+
+        /* FADE ENTER SCREEN */
+
+        startScreen.style.opacity = "0";
+
+
+        setTimeout(
+          () => {
+
+            startScreen.style.display =
+              "none";
+
+          },
+
+          1500
+        );
+
+
+        /* =====================================
+           TITLE APPEARS
+           ===================================== */
+
+        setTimeout(
+          () => {
+
+
+            title
+              .classList
+              .add("show");
+
+
+            /* INSTAGRAM APPEARS */
+
+            setTimeout(
+              () => {
+
+
+                instagram
+                  .classList
+                  .add("show");
+
+
+                /* MUSIC CONTROLS APPEAR */
+
+                setTimeout(
+                  () => {
+
+
+                    musicSection
+                      .classList
+                      .add("show");
+
+
+                  },
+
+                  500
+                );
+
+
+              },
+
+              500
+            );
+
+
+          },
+
+          4500
+        );
+
+
+      }
+    );
+
+
+  </script>
+
+</body>
+</html>
