@@ -15,6 +15,7 @@
       box-sizing: border-box;
     }
 
+
     html,
     body {
       width: 100%;
@@ -22,6 +23,7 @@
       overflow: hidden;
       background: black;
     }
+
 
     body {
       color: white;
@@ -46,10 +48,13 @@
       background-repeat: no-repeat;
 
       opacity: 0;
-      transition: opacity 2.5s ease;
+
+      transition:
+        opacity 2.5s ease;
 
       pointer-events: none;
     }
+
 
     .background-image.show {
       opacity: 1;
@@ -63,14 +68,17 @@
     .carousel {
       position: fixed;
       inset: 0;
+
       z-index: 1;
 
       overflow: hidden;
 
       opacity: 0;
 
-      transition: opacity 2.5s ease;
+      transition:
+        opacity 2.5s ease;
     }
+
 
     .carousel.show {
       opacity: 1;
@@ -83,6 +91,7 @@
 
     .video-card {
       position: absolute;
+
       top: 0;
 
       width: 33.333333vw;
@@ -93,6 +102,18 @@
       background: transparent;
 
       pointer-events: none;
+
+      opacity: 0;
+
+      left: 100vw;
+
+      filter:
+        brightness(0.3);
+
+      transform:
+        scale(0.94);
+
+      z-index: 0;
 
       transition:
         left 0.85s cubic-bezier(.22,.8,.22,1),
@@ -107,8 +128,6 @@
         transform;
     }
 
-
-    /* LEFT VIDEO */
 
     .video-card.left {
       left: 0;
@@ -125,8 +144,6 @@
     }
 
 
-    /* CENTER VIDEO */
-
     .video-card.center {
       left: 33.333333vw;
 
@@ -142,8 +159,6 @@
     }
 
 
-    /* RIGHT VIDEO */
-
     .video-card.right {
       left: 66.666666vw;
 
@@ -156,6 +171,36 @@
         scale(0.94);
 
       z-index: 1;
+    }
+
+
+    .video-card.hidden-left {
+      left: -33.333333vw;
+
+      opacity: 0;
+
+      filter:
+        brightness(0.3);
+
+      transform:
+        scale(0.94);
+
+      z-index: 0;
+    }
+
+
+    .video-card.hidden-right {
+      left: 100vw;
+
+      opacity: 0;
+
+      filter:
+        brightness(0.3);
+
+      transform:
+        scale(0.94);
+
+      z-index: 0;
     }
 
 
@@ -220,13 +265,14 @@
       pointer-events: none;
     }
 
+
     .video-overlay.show {
       opacity: 1;
     }
 
 
     /* =========================================
-       FADED ARROW ZONES
+       ARROWS
        ========================================= */
 
     .carousel-arrow {
@@ -278,8 +324,6 @@
     }
 
 
-    /* LEFT ARROW FADE */
-
     .carousel-arrow-left {
       left: 0;
 
@@ -295,8 +339,6 @@
     }
 
 
-    /* RIGHT ARROW FADE */
-
     .carousel-arrow-right {
       right: 0;
 
@@ -311,8 +353,6 @@
         );
     }
 
-
-    /* HOVER */
 
     .carousel-arrow-left:hover {
       background:
@@ -365,7 +405,6 @@
       flex-direction: column;
 
       justify-content: center;
-
       align-items: center;
 
       text-align: center;
@@ -375,17 +414,18 @@
 
 
     /* =========================================
-       TITLE
+       MAIN INSTAGRAM TITLE
        ========================================= */
 
-    .title {
-      font-size:
-        clamp(4rem, 12vw, 10rem);
+    .instagram {
+      display: flex;
 
-      font-weight: 300;
+      flex-direction: column;
 
-      letter-spacing:
-        0.08em;
+      align-items: center;
+      justify-content: center;
+
+      gap: 10px;
 
       opacity: 0;
 
@@ -394,38 +434,6 @@
 
       filter:
         blur(10px);
-    }
-
-
-    .title.show {
-      animation:
-        titleFade
-        2.5s
-        ease
-        forwards;
-    }
-
-
-    /* =========================================
-       INSTAGRAM
-       ========================================= */
-
-    .instagram {
-      margin-top: 25px;
-
-      font-size:
-        clamp(1rem, 2vw, 1.4rem);
-
-      letter-spacing:
-        0.15em;
-
-      text-transform:
-        lowercase;
-
-      opacity: 0;
-
-      transform:
-        translateY(20px);
 
       pointer-events: auto;
     }
@@ -433,31 +441,135 @@
 
     .instagram.show {
       animation:
-        textFade
-        2s
+        instagramMainFade
+        2.5s
         ease
         forwards;
     }
 
 
-    .instagram a {
-      color: white;
+    /* =========================================
+       SMALL "FOLLOW" / "ON INSTAGRAM"
+       ========================================= */
 
-      text-decoration: none;
+    .instagram-minor {
+      font-size:
+        clamp(0.55rem, 0.9vw, 0.78rem);
 
-      opacity: 0.7;
+      font-weight: 400;
+
+      letter-spacing:
+        0.48em;
+
+      text-transform: uppercase;
+
+      color:
+        rgba(255, 255, 255, 0.48);
 
       transition:
-        opacity 0.3s ease,
-        letter-spacing 0.3s ease;
+        color 0.6s ease,
+        letter-spacing 0.6s ease,
+        opacity 0.6s ease;
     }
 
 
-    .instagram a:hover {
-      opacity: 1;
+    /* =========================================
+       LARGE ELSEVIQUI LINK
+       ========================================= */
+
+    .instagram-title {
+      display: inline-block;
+
+      color:
+        rgba(255, 255, 255, 0.96);
+
+      text-decoration: none;
+
+      font-size:
+        clamp(4rem, 10vw, 8.5rem);
+
+      font-weight: 300;
+
+      line-height: 0.95;
 
       letter-spacing:
-        0.2em;
+        0.08em;
+
+      text-transform: none;
+
+      transform:
+        translateY(0)
+        scale(1);
+
+      text-shadow:
+        0 0 0
+        rgba(255, 255, 255, 0);
+
+      transition:
+        transform 0.8s cubic-bezier(.16,1,.3,1),
+        letter-spacing 0.8s cubic-bezier(.16,1,.3,1),
+        color 0.6s ease,
+        text-shadow 0.8s ease;
+    }
+
+
+    /* =========================================
+       ELSEVIQUI HOVER
+       ========================================= */
+
+    .instagram-title:hover {
+      color: white;
+
+      letter-spacing:
+        0.13em;
+
+      transform:
+        translateY(-7px)
+        scale(1.035);
+
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.24),
+        0 0 28px rgba(255, 255, 255, 0.13),
+        0 0 60px rgba(255, 255, 255, 0.055);
+    }
+
+
+    .instagram:has(.instagram-title:hover)
+    .instagram-minor {
+      color:
+        rgba(255, 255, 255, 0.70);
+
+      letter-spacing:
+        0.55em;
+    }
+
+
+    /* =========================================
+       INSTAGRAM INTRO ANIMATION
+       ========================================= */
+
+    @keyframes instagramMainFade {
+
+      0% {
+        opacity: 0;
+
+        transform:
+          translateY(40px);
+
+        filter:
+          blur(10px);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform:
+          translateY(0);
+
+        filter:
+          blur(0);
+      }
+
     }
 
 
@@ -466,7 +578,7 @@
        ========================================= */
 
     .music-section {
-      margin-top: 55px;
+      margin-top: 60px;
 
       opacity: 0;
 
@@ -486,6 +598,10 @@
     }
 
 
+    /* =========================================
+       SELECT TRACK LABEL
+       ========================================= */
+
     .select-track {
       margin-bottom: 16px;
 
@@ -498,11 +614,26 @@
 
       color:
         rgba(255, 255, 255, 0.55);
+
+      opacity: 1;
+
+      max-height: 30px;
+
+      overflow: hidden;
+
+      transform:
+        translateY(0);
+
+      transition:
+        opacity 0.45s ease,
+        max-height 0.45s ease,
+        margin 0.45s ease,
+        transform 0.45s ease;
     }
 
 
     /* =========================================
-       MUSIC BUTTONS
+       MUSIC OPTIONS
        ========================================= */
 
     .music-options {
@@ -513,9 +644,16 @@
 
       gap: 18px;
 
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+
+      transition:
+        gap 0.55s cubic-bezier(.2,.8,.2,1);
     }
 
+
+    /* =========================================
+       SONG BUTTON
+       ========================================= */
 
     .song-option {
       border:
@@ -546,6 +684,14 @@
 
       cursor: pointer;
 
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      opacity: 1;
+
+      max-width: 320px;
+
       backdrop-filter:
         blur(10px);
 
@@ -557,7 +703,11 @@
         scale(1);
 
       transition:
-        transform 0.30s cubic-bezier(.2,.8,.2,1),
+        opacity 0.45s ease,
+        max-width 0.55s cubic-bezier(.2,.8,.2,1),
+        padding 0.55s cubic-bezier(.2,.8,.2,1),
+        border-width 0.45s ease,
+        transform 0.45s cubic-bezier(.2,.8,.2,1),
         background 0.30s ease,
         border-color 0.30s ease,
         color 0.30s ease,
@@ -618,12 +768,136 @@
 
       color:
         rgba(255, 255, 255, 0.58);
+
+      opacity: 1;
+
+      max-height: 30px;
+
+      overflow: hidden;
+
+      transform:
+        translateY(0);
+
+      transition:
+        opacity 0.45s ease,
+        max-height 0.45s ease,
+        margin 0.45s ease,
+        transform 0.45s ease;
     }
 
 
     .now-playing-song {
       color:
         rgba(255, 255, 255, 0.9);
+    }
+
+
+    /* =========================================
+       COLLAPSED MUSIC
+       ========================================= */
+
+    .music-section.collapsed .select-track {
+      opacity: 0;
+
+      max-height: 0;
+
+      margin-bottom: 0;
+
+      transform:
+        translateY(-8px);
+    }
+
+
+    .music-section.collapsed .now-playing {
+      opacity: 0;
+
+      max-height: 0;
+
+      margin-top: 0;
+
+      transform:
+        translateY(-8px);
+    }
+
+
+    .music-section.collapsed .music-options {
+      gap: 0;
+    }
+
+
+    .music-section.collapsed
+    .song-option:not(.active) {
+
+      opacity: 0;
+
+      max-width: 0;
+
+      padding-left: 0;
+      padding-right: 0;
+
+      border-left-width: 0;
+      border-right-width: 0;
+
+      pointer-events: none;
+
+      transform:
+        scale(0.72);
+    }
+
+
+    .music-section.collapsed
+    .song-option.active {
+
+      opacity: 1;
+
+      max-width: 320px;
+
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    .music-section.collapsed
+    .song-option.active:hover {
+
+      transform:
+        translateY(-5px)
+        scale(1.05);
+    }
+
+
+    /* =========================================
+       SLOW TRACK EXPANSION
+       ========================================= */
+
+    .music-section.expanding .song-option {
+      transition:
+        opacity 1.05s ease,
+        max-width 1.15s cubic-bezier(.16,1,.3,1),
+        padding 1.15s cubic-bezier(.16,1,.3,1),
+        border-width 1.05s ease,
+        transform 1.05s cubic-bezier(.16,1,.3,1),
+        background 0.30s ease,
+        border-color 0.30s ease,
+        color 0.30s ease,
+        box-shadow 0.30s ease;
+    }
+
+
+    .music-section.expanding .music-options {
+      transition:
+        gap 1.15s cubic-bezier(.16,1,.3,1);
+    }
+
+
+    .music-section.expanding .select-track,
+    .music-section.expanding .now-playing {
+      transition:
+        opacity 0.9s ease,
+        max-height 1.05s cubic-bezier(.16,1,.3,1),
+        margin 1.05s cubic-bezier(.16,1,.3,1),
+        transform 1.05s cubic-bezier(.16,1,.3,1);
     }
 
 
@@ -720,33 +994,8 @@
 
 
     /* =========================================
-       TEXT ANIMATIONS
+       TEXT FADE
        ========================================= */
-
-    @keyframes titleFade {
-
-      0% {
-        opacity: 0;
-
-        transform:
-          translateY(40px);
-
-        filter:
-          blur(10px);
-      }
-
-      100% {
-        opacity: 1;
-
-        transform:
-          translateY(0);
-
-        filter:
-          blur(0);
-      }
-
-    }
-
 
     @keyframes textFade {
 
@@ -825,13 +1074,11 @@
 
 
     /* =========================================
-       PORTRAIT MODE
+       MOBILE
        ========================================= */
 
     @media (orientation: portrait) {
 
-
-      /* CENTER VIDEO FILLS VIDEO AREA */
 
       .video-card {
         width: 100vw;
@@ -856,30 +1103,39 @@
       }
 
 
-      /* HIDE SIDE VIDEOS */
-
-      .video-card.left,
-      .video-card.right {
-        left: 0;
+      .video-card.left {
+        left: -100vw;
 
         opacity: 0;
-
-        transform:
-          scale(1);
-
-        pointer-events: none;
       }
 
 
-      /* REMOVE DIVIDERS */
+      .video-card.right {
+        left: 100vw;
+
+        opacity: 0;
+      }
+
+
+      .video-card.hidden-left {
+        left: -100vw;
+
+        opacity: 0;
+      }
+
+
+      .video-card.hidden-right {
+        left: 100vw;
+
+        opacity: 0;
+      }
+
 
       .video-card.left::after,
       .video-card.center::after {
         display: none;
       }
 
-
-      /* WIDER FADED ARROW AREAS */
 
       .carousel-arrow {
         width: 24vw;
@@ -889,35 +1145,43 @@
       }
 
 
-      /* TITLE */
-
-      .title {
-        font-size:
-          clamp(3.3rem, 17vw, 6rem);
-      }
-
-
-      /* INSTAGRAM */
-
       .instagram {
-        font-size:
-          clamp(0.8rem, 3.5vw, 1.1rem);
+        gap: 8px;
+
+        padding:
+          0 18px;
       }
 
 
-      /* MUSIC */
+      .instagram-minor {
+        font-size:
+          0.50rem;
+
+        letter-spacing:
+          0.40em;
+      }
+
+
+      .instagram-title {
+        font-size:
+          clamp(3.2rem, 17vw, 6rem);
+
+        letter-spacing:
+          0.07em;
+
+        line-height: 1;
+      }
+
 
       .music-section {
         width: 100%;
 
-        margin-top: 50px;
+        margin-top: 52px;
 
         padding:
           0 16px;
       }
 
-
-      /* SONGS STACK VERTICALLY */
 
       .music-options {
         display: flex;
@@ -935,11 +1199,54 @@
         width:
           min(78vw, 320px);
 
+        max-width:
+          min(78vw, 320px);
+
         padding:
           12px 16px;
 
         font-size:
           0.60rem;
+      }
+
+
+      .music-section.collapsed
+      .music-options {
+        gap: 0;
+      }
+
+
+      .music-section.collapsed
+      .song-option:not(.active) {
+
+        width: 0;
+
+        max-width: 0;
+
+        height: 0;
+
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+
+        border-width: 0;
+
+        opacity: 0;
+
+        transform:
+          scale(0.7);
+      }
+
+
+      .music-section.collapsed
+      .song-option.active {
+
+        width:
+          min(78vw, 320px);
+
+        max-width:
+          min(78vw, 320px);
       }
 
 
@@ -957,27 +1264,17 @@
 <body>
 
 
-  <!-- =========================================
-       BACKGROUND IMAGE
-       ========================================= -->
-
   <div
     class="background-image"
     id="backgroundImage"
   ></div>
 
 
-  <!-- =========================================
-       VIDEO CAROUSEL
-       ========================================= -->
-
   <div
     class="carousel"
     id="carousel"
   >
 
-
-    <!-- LEFT VIDEO -->
 
     <div class="video-card left">
 
@@ -998,8 +1295,6 @@
     </div>
 
 
-    <!-- CENTER VIDEO -->
-
     <div class="video-card center">
 
       <video
@@ -1018,8 +1313,6 @@
 
     </div>
 
-
-    <!-- RIGHT VIDEO -->
 
     <div class="video-card right">
 
@@ -1040,12 +1333,84 @@
     </div>
 
 
+    <div class="video-card hidden-right">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/aileytower.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <div class="video-card hidden-right">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/crow.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <div class="video-card hidden-right">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/gatech.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <div class="video-card hidden-left">
+
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+
+        <source
+          src="https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/stranger.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
   </div>
 
-
-  <!-- =========================================
-       DARK OVERLAY
-       ========================================= -->
 
   <div
     class="video-overlay"
@@ -1053,44 +1418,35 @@
   ></div>
 
 
-  <!-- =========================================
-       MAIN CONTENT
-       ========================================= -->
-
   <main class="container">
 
 
-    <h1
-      class="title"
-      id="title"
-    >
-      Elseviqui
-    </h1>
-
-
-    <p
+    <div
       class="instagram"
       id="instagram"
     >
 
-      follow
+      <span class="instagram-minor">
+        follow
+      </span>
+
 
       <a
+        class="instagram-title"
         href="https://www.instagram.com/elseviqui?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
         target="_blank"
         rel="noopener noreferrer"
       >
-        elseviqui
+        Elseviqui
       </a>
 
-      on instagram
 
-    </p>
+      <span class="instagram-minor">
+        on instagram
+      </span>
 
+    </div>
 
-    <!-- =========================================
-         MUSIC
-         ========================================= -->
 
     <div
       class="music-section"
@@ -1098,12 +1454,18 @@
     >
 
 
-      <p class="select-track">
+      <p
+        class="select-track"
+        id="selectTrackLabel"
+      >
         Select Track
       </p>
 
 
-      <div class="music-options">
+      <div
+        class="music-options"
+        id="musicOptions"
+      >
 
 
         <button
@@ -1136,7 +1498,10 @@
       </div>
 
 
-      <p class="now-playing">
+      <p
+        class="now-playing"
+        id="nowPlaying"
+      >
 
         NOW PLAYING&nbsp; • &nbsp;
 
@@ -1172,10 +1537,6 @@
   </main>
 
 
-  <!-- =========================================
-       ARROWS
-       ========================================= -->
-
   <button
     class="carousel-arrow carousel-arrow-left"
     id="carouselLeft"
@@ -1196,10 +1557,6 @@
   </button>
 
 
-  <!-- =========================================
-       ENTER SCREEN
-       ========================================= -->
-
   <div id="startScreen">
 
     <p>
@@ -1208,10 +1565,6 @@
 
   </div>
 
-
-  <!-- =========================================
-       MUSIC PLAYER
-       ========================================= -->
 
   <audio
     id="musicPlayer"
@@ -1223,22 +1576,14 @@
   <script>
 
 
-    /* =========================================
-       CLOUDFLARE
-       ========================================= */
-
     const cloudflareBase =
       "https://pub-efbc8c9c25f94c9f86351c1ad890f3ee.r2.dev/";
 
 
-    /* =========================================
-       SONGS
-       ========================================= */
-
     const songs = [
 
       {
-        name: "Stupuid for You",
+        name: "Stupid for You",
         file: "Stupid for You.mp3"
       },
 
@@ -1255,59 +1600,97 @@
     ];
 
 
-    /* =========================================
-       ELEMENTS
-       ========================================= */
-
     const startScreen =
-      document.getElementById("startScreen");
+      document.getElementById(
+        "startScreen"
+      );
+
 
     const backgroundImage =
-      document.getElementById("backgroundImage");
+      document.getElementById(
+        "backgroundImage"
+      );
+
 
     const carousel =
-      document.getElementById("carousel");
+      document.getElementById(
+        "carousel"
+      );
+
 
     const videoOverlay =
-      document.getElementById("videoOverlay");
+      document.getElementById(
+        "videoOverlay"
+      );
 
-    const title =
-      document.getElementById("title");
 
     const instagram =
-      document.getElementById("instagram");
+      document.getElementById(
+        "instagram"
+      );
+
 
     const musicSection =
-      document.getElementById("musicSection");
+      document.getElementById(
+        "musicSection"
+      );
+
 
     const musicPlayer =
-      document.getElementById("musicPlayer");
+      document.getElementById(
+        "musicPlayer"
+      );
+
 
     const songOptions =
-      document.querySelectorAll(".song-option");
+      document.querySelectorAll(
+        ".song-option"
+      );
+
 
     const nowPlayingSong =
-      document.getElementById("nowPlayingSong");
+      document.getElementById(
+        "nowPlayingSong"
+      );
+
 
     const carouselLeft =
-      document.getElementById("carouselLeft");
+      document.getElementById(
+        "carouselLeft"
+      );
+
 
     const carouselRight =
-      document.getElementById("carouselRight");
+      document.getElementById(
+        "carouselRight"
+      );
 
 
-    /* =========================================
-       MUSIC
-       ========================================= */
+    const touchMode =
+      window.matchMedia(
+        "(hover: none), (pointer: coarse)"
+      );
+
+
+    function isTouchDevice() {
+
+      return touchMode.matches;
+
+    }
+
 
     musicPlayer.volume = 0.01;
 
 
-    function getSongURL(fileName) {
+    function getSongURL(
+      fileName
+    ) {
 
       return (
         cloudflareBase +
-        encodeURIComponent(fileName)
+        encodeURIComponent(
+          fileName
+        )
       );
 
     }
@@ -1317,6 +1700,7 @@
       songIndex,
       autoplay = true
     ) {
+
 
       const selectedSong =
         songs[songIndex];
@@ -1354,9 +1738,11 @@
 
       if (activeOption) {
 
-        activeOption.classList.add(
-          "active"
-        );
+        activeOption
+          .classList
+          .add(
+            "active"
+          );
 
       }
 
@@ -1381,26 +1767,152 @@
     }
 
 
-    /* =========================================
-       DEFAULT SONG
-       ========================================= */
-
     loadSong(
       1,
       false
     );
 
 
-    /* =========================================
-       SONG BUTTONS
-       ========================================= */
+    let trackCollapseTimer = null;
+
+    let expansionCleanupTimer = null;
+
+
+    function clearTrackCollapseTimer() {
+
+      if (
+        trackCollapseTimer
+      ) {
+
+        clearTimeout(
+          trackCollapseTimer
+        );
+
+        trackCollapseTimer = null;
+
+      }
+
+    }
+
+
+    function clearExpansionCleanupTimer() {
+
+      if (
+        expansionCleanupTimer
+      ) {
+
+        clearTimeout(
+          expansionCleanupTimer
+        );
+
+        expansionCleanupTimer = null;
+
+      }
+
+    }
+
+
+    function collapseTrackSelector() {
+
+      clearTrackCollapseTimer();
+
+      clearExpansionCleanupTimer();
+
+
+      musicSection
+        .classList
+        .remove(
+          "expanding"
+        );
+
+
+      musicSection
+        .classList
+        .add(
+          "collapsed"
+        );
+
+    }
+
+
+    function expandTrackSelector() {
+
+      clearTrackCollapseTimer();
+
+      clearExpansionCleanupTimer();
+
+
+      musicSection
+        .classList
+        .add(
+          "expanding"
+        );
+
+
+      requestAnimationFrame(
+        () => {
+
+          musicSection
+            .classList
+            .remove(
+              "collapsed"
+            );
+
+        }
+      );
+
+
+      expansionCleanupTimer =
+        setTimeout(
+          () => {
+
+            musicSection
+              .classList
+              .remove(
+                "expanding"
+              );
+
+            expansionCleanupTimer = null;
+
+          },
+
+          1200
+        );
+
+    }
+
+
+    function scheduleTrackCollapse(
+      delay = 4000
+    ) {
+
+      clearTrackCollapseTimer();
+
+
+      trackCollapseTimer =
+        setTimeout(
+          () => {
+
+            collapseTrackSelector();
+
+          },
+
+          delay
+        );
+
+    }
+
 
     songOptions.forEach(
       option => {
 
         option.addEventListener(
           "click",
-          () => {
+          event => {
+
+
+            event.stopPropagation();
+
 
             const songIndex =
               Number(
@@ -1408,10 +1920,76 @@
               );
 
 
+            const isActive =
+              option.classList.contains(
+                "active"
+              );
+
+
+            const isCollapsed =
+              musicSection
+                .classList
+                .contains(
+                  "collapsed"
+                );
+
+
+            if (
+              isTouchDevice()
+            ) {
+
+
+              if (
+                isCollapsed &&
+                isActive
+              ) {
+
+                expandTrackSelector();
+
+                return;
+
+              }
+
+
+              if (
+                !isCollapsed &&
+                isActive
+              ) {
+
+                collapseTrackSelector();
+
+                return;
+
+              }
+
+
+              loadSong(
+                songIndex,
+                true
+              );
+
+
+              setTimeout(
+                () => {
+
+                  collapseTrackSelector();
+
+                },
+
+                250
+              );
+
+
+              return;
+
+            }
+
+
             loadSong(
               songIndex,
               true
             );
+
 
           }
         );
@@ -1420,9 +1998,86 @@
     );
 
 
-    /* =========================================
-       VIDEO CAROUSEL
-       ========================================= */
+    musicSection.addEventListener(
+      "mouseenter",
+      () => {
+
+
+        if (
+          !isTouchDevice()
+        ) {
+
+          expandTrackSelector();
+
+        }
+
+
+      }
+    );
+
+
+    musicSection.addEventListener(
+      "mouseleave",
+      () => {
+
+
+        if (
+          !isTouchDevice()
+        ) {
+
+          scheduleTrackCollapse(
+            700
+          );
+
+        }
+
+
+      }
+    );
+
+
+    document.addEventListener(
+      "pointerdown",
+      event => {
+
+
+        if (
+          !isTouchDevice()
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          musicSection
+            .classList
+            .contains(
+              "collapsed"
+            )
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          !musicSection
+            .contains(
+              event.target
+            )
+        ) {
+
+          collapseTrackSelector();
+
+        }
+
+
+      }
+    );
+
 
     let cards =
       Array.from(
@@ -1437,10 +2092,6 @@
     let websiteStarted = false;
 
 
-    /* =========================================
-       UPDATE VIDEO POSITIONS
-       ========================================= */
-
     function updatePositions() {
 
 
@@ -1450,29 +2101,63 @@
           card.classList.remove(
             "left",
             "center",
-            "right"
+            "right",
+            "hidden-left",
+            "hidden-right"
           );
 
         }
       );
 
 
-      cards[0].classList.add(
-        "left"
-      );
+      cards[0]
+        .classList
+        .add(
+          "left"
+        );
 
 
-      cards[1].classList.add(
-        "center"
-      );
+      cards[1]
+        .classList
+        .add(
+          "center"
+        );
 
 
-      cards[2].classList.add(
-        "right"
-      );
+      cards[2]
+        .classList
+        .add(
+          "right"
+        );
 
 
-      if (websiteStarted) {
+      cards[
+        cards.length - 1
+      ]
+        .classList
+        .add(
+          "hidden-left"
+        );
+
+
+      for (
+        let i = 3;
+        i < cards.length - 1;
+        i++
+      ) {
+
+        cards[i]
+          .classList
+          .add(
+            "hidden-right"
+          );
+
+      }
+
+
+      if (
+        websiteStarted
+      ) {
 
         playCenterVideo();
 
@@ -1480,10 +2165,6 @@
 
     }
 
-
-    /* =========================================
-       ONLY CENTER VIDEO PLAYS
-       ========================================= */
 
     function playCenterVideo() {
 
@@ -1499,9 +2180,11 @@
 
 
           if (
-            card.classList.contains(
-              "center"
-            )
+            card
+              .classList
+              .contains(
+                "center"
+              )
           ) {
 
 
@@ -1541,10 +2224,6 @@
     }
 
 
-    /* =========================================
-       NEXT VIDEO
-       ========================================= */
-
     function moveLeft() {
 
 
@@ -1581,10 +2260,6 @@
 
     }
 
-
-    /* =========================================
-       PREVIOUS VIDEO
-       ========================================= */
 
     function moveRight() {
 
@@ -1623,10 +2298,6 @@
     }
 
 
-    /* =========================================
-       ARROW CONTROLS
-       ========================================= */
-
     carouselLeft.addEventListener(
       "click",
       event => {
@@ -1651,9 +2322,96 @@
     );
 
 
-    /* =========================================
-       ENTER WEBSITE
-       ========================================= */
+    window.addEventListener(
+      "wheel",
+      event => {
+
+
+        if (
+          !websiteStarted ||
+          moving
+        ) {
+
+          return;
+
+        }
+
+
+        const movement =
+          Math.abs(
+            event.deltaX
+          ) >
+          Math.abs(
+            event.deltaY
+          )
+
+            ? event.deltaX
+
+            : event.deltaY;
+
+
+        if (
+          movement > 0
+        ) {
+
+          moveLeft();
+
+        }
+
+
+        else if (
+          movement < 0
+        ) {
+
+          moveRight();
+
+        }
+
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    window.addEventListener(
+      "keydown",
+      event => {
+
+
+        if (
+          !websiteStarted
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          event.key ===
+          "ArrowRight"
+        ) {
+
+          moveLeft();
+
+        }
+
+
+        if (
+          event.key ===
+          "ArrowLeft"
+        ) {
+
+          moveRight();
+
+        }
+
+
+      }
+    );
+
 
     startScreen.addEventListener(
       "click",
@@ -1663,17 +2421,17 @@
         websiteStarted = true;
 
 
-        document.body.classList.add(
-          "started"
-        );
+        document.body
+          .classList
+          .add(
+            "started"
+          );
 
 
-        /* START CENTER VIDEO */
+        updatePositions();
 
         playCenterVideo();
 
-
-        /* START MUSIC */
 
         musicPlayer.currentTime = 0;
 
@@ -1692,26 +2450,29 @@
           );
 
 
-        /* SHOW BACKGROUND */
-
         backgroundImage
           .classList
-          .add("show");
+          .add(
+            "show"
+          );
 
 
         carousel
           .classList
-          .add("show");
+          .add(
+            "show"
+          );
 
 
         videoOverlay
           .classList
-          .add("show");
+          .add(
+            "show"
+          );
 
 
-        /* FADE ENTER SCREEN */
-
-        startScreen.style.opacity = "0";
+        startScreen.style.opacity =
+          "0";
 
 
         setTimeout(
@@ -1726,50 +2487,36 @@
         );
 
 
-        /* =====================================
-           TITLE APPEARS
-           ===================================== */
-
         setTimeout(
           () => {
 
 
-            title
+            instagram
               .classList
-              .add("show");
+              .add(
+                "show"
+              );
 
-
-            /* INSTAGRAM APPEARS */
 
             setTimeout(
               () => {
 
 
-                instagram
+                musicSection
                   .classList
-                  .add("show");
+                  .add(
+                    "show"
+                  );
 
 
-                /* MUSIC CONTROLS APPEAR */
-
-                setTimeout(
-                  () => {
-
-
-                    musicSection
-                      .classList
-                      .add("show");
-
-
-                  },
-
-                  500
+                scheduleTrackCollapse(
+                  4000
                 );
 
 
               },
 
-              500
+              700
             );
 
 
@@ -1786,4 +2533,5 @@
   </script>
 
 </body>
+
 </html>
